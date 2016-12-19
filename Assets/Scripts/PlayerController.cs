@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Xml;
-using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public class Boundary
@@ -17,6 +13,21 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public Boundary boundary;
     public float tilt;
+
+    public GameObject shot;
+    public Transform shotSpown;
+
+    public float fireRate;
+    private float nextFire;
+
+    void Update()
+    {
+        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        {
+            nextFire = Time.time + fireRate;
+            Instantiate(shot, shotSpown.position, shotSpown.rotation);
+        }
+    }
 
     void Start()
     {
