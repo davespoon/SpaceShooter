@@ -8,8 +8,22 @@ public class DestroyByContact : MonoBehaviour
     public GameObject playerExplosion;
     public int scoreValue;
 
-    public GameController gameController;
+    private GameController gameController;
 
+    void Start()
+    {
+        GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+
+        if (gameControllerObject != null)
+        {
+            gameController = gameControllerObject.GetComponent<GameController>();
+        }
+        if (gameControllerObject == null)
+        {
+            Debug.Log("Can'not find 'Controller' Script");
+        }
+    }
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Boundary")

@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
     public float waveWait;
 
     public GUIText scoreText;
-    public int score;
+    private int score;
 
     public void Start()
     {
