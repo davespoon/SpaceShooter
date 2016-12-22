@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -11,13 +12,33 @@ public class GameController : MonoBehaviour
     public float waveWait;
 
     public GUIText scoreText;
-    private int score;
+    public GUIText restartText;
+    public GUIText gameOverText;
 
-    public void Start()
+    private int score;
+    private bool gameOver;
+    private bool restart;
+
+    void Start()
     {
+        gameOver = false;
+        restart = false;
+        restartText.text = "";
+        gameOverText.text = "";
         score = 0;
         UpdateScore();
         StartCoroutine(SpawnWaves());
+    }
+
+    void Update()
+    {
+        if (restart)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Application.LoadLevel(Application.loadedLevel);
+            }
+        }
     }
 
     IEnumerator SpawnWaves()
@@ -28,14 +49,21 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < hazardCount; i++)
             {
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x),
-                spawnValues.y,
-                spawnValues.z);
+                    spawnValues.y,
+                    spawnValues.z);
                 Quaternion spawnRotation = Quaternion.identity;
                 Instantiate(hazard, spawnPosition, spawnRotation);
                 yield return new WaitForSeconds(spawnWait);
-            } 
+            }
             yield return new WaitForSeconds(waveWait);
-        } 
+
+            if (gameOver)
+            {
+                restartText.text = "Press 'R' for restart game";
+                restart = true;
+                break;
+            }
+        }
     }
 
     public void AddScore(int newScoreValue)
@@ -49,4 +77,9 @@ public class GameController : MonoBehaviour
         scoreText.text = "Score: " + score;
     }
 
+    public void GameOver()
+    {
+        gameOverText.text = "Game Over";
+        gameOver = true;
+    }
 }

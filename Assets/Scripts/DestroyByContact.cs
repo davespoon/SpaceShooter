@@ -13,7 +13,6 @@ public class DestroyByContact : MonoBehaviour
     void Start()
     {
         GameObject gameControllerObject = GameObject.FindWithTag("GameController");
-
         if (gameControllerObject != null)
         {
             gameController = gameControllerObject.GetComponent<GameController>();
@@ -38,6 +37,7 @@ public class DestroyByContact : MonoBehaviour
         if (other.tag == "Player")
         {
             Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
+            gameController.GameOver();
         }
         gameController.AddScore(scoreValue);
     }
