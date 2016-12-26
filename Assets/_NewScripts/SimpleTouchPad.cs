@@ -25,20 +25,28 @@ public class SimpleTouchPad : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         if (!touched)
         {
             touched = true;
+            pointerID = data.pointerId;
             origin = data.position;
         }
     }
 
     public void OnDrag(PointerEventData data)
     {
-        Vector2 currentPosition = data.position;
-        Vector2 directionRaw = currentPosition - origin;
-        direction = directionRaw.normalized;
+        if (data.pointerId == pointerID)
+        {
+            Vector2 currentPosition = data.position;
+            Vector2 directionRaw = currentPosition - origin;
+            direction = directionRaw.normalized; 
+        }
     }
 
     public void OnPointerUp(PointerEventData data)
     {
-        direction = Vector2.zero;
+        if (data.pointerId == pointerID)
+        {
+            direction = Vector2.zero;
+            touched = false;
+        }
     }
 
     public Vector2 GetDirection()

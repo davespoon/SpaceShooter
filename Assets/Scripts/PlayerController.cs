@@ -18,13 +18,14 @@ public class PlayerController : MonoBehaviour
     public GameObject shot;
     public Transform shotSpown;
     public SimpleTouchPad touchPad;
+    public Fire fireButton;
 
     public float fireRate;
     private float nextFire;
 
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        if (fireButton.CanFire() && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
             Instantiate(shot, shotSpown.position, shotSpown.rotation);
